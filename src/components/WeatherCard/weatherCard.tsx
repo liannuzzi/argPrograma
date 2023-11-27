@@ -7,7 +7,7 @@ function WeatherCard(props: { weatherData: any; loading: boolean }) {
   }
   return (
     <>
-      <div className="border-4 rounded border-black gap-2 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 	">
+      <div className="border-4 rounded border-black gap-2 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-xl 	">
         <h1>{props.weatherData.name}</h1>
         <div className="flex flex-row justify-center items-center">
           <Image

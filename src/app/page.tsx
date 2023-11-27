@@ -45,44 +45,49 @@ export default function Home() {
   };
 
   const searchCity = () => {
-    fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=5&appid=${apikey}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const cityResults = document.getElementById(
-          "city-results"
-        ) as HTMLDivElement;
-        if (cityResults) {
-          const removeNodes = () => {
-            while (cityResults.firstChild) {
-              cityResults.removeChild(cityResults.firstChild);
-            }
-          };
-          removeNodes();
-          const newUl = document.createElement("ul");
-          newUl.id = "city-list";
-          cityResults.appendChild(newUl);
-          const cityList = document.getElementById("city-list");
-          const resultsList = data.map((city: any) => {
-            const el = document.createElement("li");
-            el.className =
-              "border-2 border-black p-2 cursor-pointer bg-gradient-to-r from-slate-600 to-slate-500  ";
-            el.onclick = () => {
-              searchWeather(city.lat, city.lon);
+    if (searchValue !== "") {
+      fetch(
+        `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=5&appid=${apikey}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const cityResults = document.getElementById(
+            "city-results"
+          ) as HTMLDivElement;
+          if (cityResults) {
+            const removeNodes = () => {
+              while (cityResults.firstChild) {
+                cityResults.removeChild(cityResults.firstChild);
+              }
             };
-            el.innerHTML = `${city.name}, ${city.state}, ${city.country}`;
+            removeNodes();
 
-            cityList?.appendChild(el);
-          });
-        }
-      });
+            const newUl = document.createElement("ul");
+            newUl.id = "city-list";
+            cityResults.appendChild(newUl);
+            const cityList = document.getElementById("city-list");
+            const resultsList = data.map((city: any) => {
+              const el = document.createElement("li");
+              el.className =
+                "border-2 border-black p-2 cursor-pointer bg-gradient-to-r from-slate-600 to-slate-500  ";
+              el.onclick = () => {
+                searchWeather(city.lat, city.lon);
+              };
+              el.innerHTML = `${city.name}, ${city.state}, ${city.country}`;
+
+              cityList?.appendChild(el);
+            });
+          }
+        });
+    } else {
+      alert("Ingrese una ciudad");
+    }
   };
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4">
-        <h1 className="text-xl font-bold">Clima</h1>
+      <div className="flex flex-col items-center gap-6 h-full justify-center">
+        <h1 className="text-6xl font-bold ">Clima App</h1>
         <WeatherCard
           weatherData={searchResults}
           loading={loading}
